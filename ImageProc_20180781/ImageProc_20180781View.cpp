@@ -52,6 +52,8 @@ BEGIN_MESSAGE_MAP(CImageProc20180781View, CScrollView)
 	ON_COMMAND(ID_GEOMETRY_ZOOMOUT_MEANSUB, &CImageProc20180781View::OnGeometryZoomoutMeansub)
 	ON_COMMAND(ID_GEOMETRY_AVG_FILTERING, &CImageProc20180781View::OnGeometryAvgFiltering)
 	ON_COMMAND(ID_GEOMETRY_ROTATION, &CImageProc20180781View::OnGeometryRotation)
+	ON_COMMAND(ID_GEOMETRY_HORIZONTAL_FLIP, &CImageProc20180781View::OnGeometryHorizontalFlip)
+	ON_COMMAND(ID_GEOMETRY_VERTICAL_FLIP, &CImageProc20180781View::OnGeometryVerticalFlip)
 END_MESSAGE_MAP()
 
 // CImageProc20180781View 생성/소멸
@@ -1404,6 +1406,44 @@ void CImageProc20180781View::OnGeometryRotation()
 				}
 			}
 			
+		}
+	Invalidate();
+}
+
+//좌우대칭
+void CImageProc20180781View::OnGeometryHorizontalFlip()
+{
+	CImageProc20180781Doc* pDoc = GetDocument();
+	int x, y;
+
+	for(y = 0; y < pDoc->ImageHeight; y++)
+		for (x = 0; x < pDoc->ImageWidth; x++) {
+			if(pDoc->depth == 1)
+				pDoc->ResultImg[y][x] = pDoc->InputImg[y][pDoc->ImageWidth - 1 - x];	//대칭이동의 형태
+			else {
+				pDoc->ResultImg[y][3 * x + 0] = pDoc->InputImg[y][3 * (pDoc->ImageWidth - 1 - x) + 0];
+				pDoc->ResultImg[y][3 * x + 1] = pDoc->InputImg[y][3 * (pDoc->ImageWidth - 1 - x) + 1];
+				pDoc->ResultImg[y][3 * x + 2] = pDoc->InputImg[y][3 * (pDoc->ImageWidth - 1 - x) + 2];
+			}
+		}
+	Invalidate();
+}
+
+
+void CImageProc20180781View::OnGeometryVerticalFlip()
+{
+	CImageProc20180781Doc* pDoc = GetDocument();
+	int x, y;
+
+	for (y = 0; y < pDoc->ImageHeight; y++)
+		for (x = 0; x < pDoc->ImageWidth; x++) {
+			if (pDoc->depth == 1)
+				pDoc->ResultImg[y][x] = pDoc->InputImg[pDoc->ImageHeight - 1 - y][x];	//대칭이동의 형태
+			else {
+				pDoc->ResultImg[y][3 * x + 0] = pDoc->InputImg[pDoc->ImageHeight - 1 - y][3 * x + 0];
+				pDoc->ResultImg[y][3 * x + 1] = pDoc->InputImg[pDoc->ImageHeight - 1 - y][3 * x + 1];
+				pDoc->ResultImg[y][3 * x + 2] = pDoc->InputImg[pDoc->ImageHeight - 1 - y][3 * x + 2];
+			}
 		}
 	Invalidate();
 }
