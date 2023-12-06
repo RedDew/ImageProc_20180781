@@ -73,6 +73,13 @@ public:
 	afx_msg void OnGeometryRotation();
 	afx_msg void OnGeometryHorizontalFlip();
 	afx_msg void OnGeometryVerticalFlip();
+	afx_msg void OnGeometryWarping();
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnAviView();
+	bool bAVIMode;
+	CString AviFileName;
+	void LoadAviFile(CDC* pDC);
 };
 
 #ifndef _DEBUG  // ImageProc_20180781View.cpp의 디버그 버전
