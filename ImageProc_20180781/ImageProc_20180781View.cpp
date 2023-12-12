@@ -453,13 +453,13 @@ void CImageProc20180781View::OnPixelTwoImageSub()
 
 	for (y = 0; y < pDoc->ImageHeight; y++) {
 		for (x = 0; x < pDoc->ImageWidth; x++) {
-			value = abs(pDoc->InputImg[y][x] - pDoc->InputImg2[y][x]);		//비율에 따라 한쪽 비율이 달라짐
+			value = (pDoc->InputImg[y][x] - pDoc->InputImg2[y][x]);		//비율에 따라 한쪽 비율이 달라짐
 			
 			
-			if (value > 64) {
+			if (value > 255) {
 				value = 255;
 			}
-			else {
+			else if(value < 0){
 				value = 0;
 			}
 			
